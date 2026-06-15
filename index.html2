@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPN — Plateforme Éducative Nationale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>{
+  "name": "edupn",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.0.0"
+  }import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  base: './',
+})
+}import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './styles/global.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cobalt: #1B3A6B;
+  --cobalt-light: #2A5298;
+  --cobalt-dark: #0F2347;
+  --mint: #2DBE8C;
+  --mint-light: #4ECBA0;
+  --mint-pale: #E8FAF4;
+  --amber: #F6A623;
+  --amber-pale: #FFF4DC;
+  --slate: #4A5568;
+  --slate-light: #718096;
+  --slate-pale: #E2E8F0;
+  --bg: #F8FAFF;
+  --surface: #EEF2FF;
+  --white: #FFFFFF;
+  --danger: #E53E3E;
+  --danger-pale: #FFF5F5;
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(27,58,107,0.08);
+  --shadow-md: 0 4px 24px rgba(27,58,107,0.12);
+  --transition: all 0.2s ease;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--slate);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); color: var(--cobalt); line-height: 1.3; font-weight: 700; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; outline: none; font-family: var(--font-body); }
+input, select, textarea { font-family: var(--font-body); outline: none; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--cobalt-light); border-radius: 3px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 0.875rem;
+  transition: var(--transition); cursor: pointer;
+}
+.btn-primary { background: var(--cobalt); color: white; }
+.btn-primary:hover { background: var(--cobalt-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-mint { background: var(--mint); color: white; }
+.btn-mint:hover { background: var(--mint-light); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--cobalt); border: 1.5px solid var(--cobalt); }
+.btn-ghost:hover { background: var(--surface); }
+.btn-danger { background: var(--danger); color: white; }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+.btn-lg { padding: 14px 28px; font-size: 1rem; border-radius: var(--radius); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 600; font-family: var(--font-display);
+}
+.badge-mint { background: var(--mint-pale); color: var(--mint); }
+.badge-cobalt { background: var(--surface); color: var(--cobalt); }
+.badge-amber { background: var(--amber-pale); color: #B7791F; }
+.badge-danger { background: var(--danger-pale); color: var(--danger); }
+
+.card {
+  background: white; border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 24px;
+  transition: var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+.table-wrap { overflow-x: auto; border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: var(--surface); color: var(--cobalt);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 12px 16px; text-align: left;
+}
+tbody td { padding: 14px 16px; border-bottom: 1px solid var(--slate-pale); font-size: 0.9rem; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--bg); }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; }
+.input-group label { font-size: 0.85rem; font-weight: 600; color: var(--cobalt); font-family: var(--font-display); }
+.input {
+  padding: 10px 14px; border: 1.5px solid var(--slate-pale);
+  border-radius: var(--radius-sm); font-size: 0.9rem;
+  transition: var(--transition); background: white; color: var(--slate);
+}
+.input:focus { border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(27,58,107,0.1); }
+.input::placeholder { color: var(--slate-light); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+.animate-fade { animation: fadeIn 0.35s ease forwards; }
+.animate-slide { animation: slideIn 0.3s ease forwards; }
+
+#app-layout { display: flex; min-height: 100vh; }
+#sidebar {
+  width: 260px; min-height: 100vh;
+  background: var(--cobalt-dark);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; z-index: 100;
+  transition: transform 0.3s ease;
+}
+#main-content { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+#topbar {
+  background: white; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; box-shadow: 0 1px 0 var(--slate-pale);
+  position: sticky; top: 0; z-index: 50;
+}
+#page-content { padding: 28px 24px; flex: 1; }
+
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #main-content { margin-left: 0; }
+  #page-content { padding: 16px; }
+}export const ecoles = [
+  { id:1, nom:"École Primaire Liberté", type:"Primaire", commune:"Niamey", region:"Niamey", directeur:"M. Oumarou Hamidou", eleves:342, professeurs:18, statut:"Publique", code:"NIA-001" },
+  { id:2, nom:"Lycée National de Niamey", type:"Secondaire", commune:"Niamey", region:"Niamey", directeur:"Mme Aïssa Moussa", eleves:1240, professeurs:67, statut:"Publique", code:"NIA-002" },
+  { id:3, nom:"Collège d'Enseignement Général Agadez", type:"Secondaire", commune:"Agadez", region:"Agadez", directeur:"M. Ibrahim Zaki", eleves:580, professeurs:31, statut:"Publique", code:"AGA-001" },
+  { id:4, nom:"École Primaire Arc-en-Ciel", type:"Primaire", commune:"Zinder", region:"Zinder", directeur:"Mme Fatouma Ali", eleves:210, professeurs:12, statut:"Privée", code:"ZIN-001" },
+  { id:5, nom:"Lycée Issa Corrèze", type:"Secondaire", commune:"Maradi", region:"Maradi", directeur:"M. Adamou Sani", eleves:890, professeurs:45, statut:"Publique", code:"MAR-001" },
+]
+
+export const eleves = [
+  { id:1, nom:"Mahamadou", prenom:"Salissou", matricule:"EL-2024-001", classe:"6ème A", ecoleId:2, parentId:1, dateNaissance:"2011-03-15", sexe:"M" },
+  { id:2, nom:"Aïchatou", prenom:"Issoufou", matricule:"EL-2024-002", classe:"5ème B", ecoleId:2, parentId:1, dateNaissance:"2012-07-22", sexe:"F" },
+  { id:3, nom:"Boubacar", prenom:"Diallo", matricule:"EL-2024-003", classe:"CE2", ecoleId:1, parentId:2, dateNaissance:"2015-01-10", sexe:"M" },
+  { id:4, nom:"Zara", prenom:"Moussa", matricule:"EL-2024-004", classe:"3ème C", ecoleId:3, parentId:3, dateNaissance:"2009-09-05", sexe:"F" },
+  { id:5, nom:"Hamza", prenom:"Abdou", matricule:"EL-2024-005", classe:"Terminale D", ecoleId:5, parentId:4, dateNaissance:"2006-11-30", sexe:"M" },
+  { id:6, nom:"Ramatou", prenom:"Issa", matricule:"EL-2024-006", classe:"6ème A", ecoleId:2, parentId:5, dateNaissance:"2011-05-18", sexe:"F" },
+]
+
+export const professeurs = [
+  { id:1, nom:"Garba", prenom:"Moussa", matricule:"PR-001", ecoleId:2, matieres:["Mathématiques","Physique"], classe:"6ème A / 5ème B", dateRecrutement:"2015-09-01", grade:"Certifié", statut:"Titulaire" },
+  { id:2, nom:"Mariama", prenom:"Ousmane", matricule:"PR-002", ecoleId:2, matieres:["Français","Histoire-Géo"], classe:"6ème A / 6ème B", dateRecrutement:"2018-09-01", grade:"Licencié", statut:"Titulaire" },
+  { id:3, nom:"Alhassane", prenom:"Zakari", matricule:"PR-003", ecoleId:1, matieres:["Sciences","Calcul"], classe:"CE2 / CM1", dateRecrutement:"2020-01-15", grade:"BEPC+2", statut:"Contractuel" },
+  { id:4, nom:"Hadiza", prenom:"Maigari", matricule:"PR-004", ecoleId:3, matieres:["SVT","Chimie"], classe:"3ème A / 3ème C", dateRecrutement:"2017-09-01", grade:"Certifié", statut:"Titulaire" },
+  { id:5, nom:"Souleymane", prenom:"Tanimoune", matricule:"PR-005", ecoleId:5, matieres:["Philosophie","Français"], classe:"Terminale A / Terminale D", dateRecrutement:"2012-09-01", grade:"CAPES", statut:"Titulaire" },
+]
+
+export const notes = [
+  { id:1, eleveId:1, matiere:"Mathématiques", trimestre:1, note:14.5, coeff:3, appreciation:"Bon travail, continue ainsi", professeurId:1 },
+  { id:2, eleveId:1, matiere:"Français", trimestre:1, note:12.0, coeff:3, appreciation:"Peut mieux faire", professeurId:2 },
+  { id:3, eleveId:1, matiere:"Histoire-Géo", trimestre:1, note:15.0, coeff:2, appreciation:"Excellent", professeurId:2 },
+  { id:4, eleveId:1, matiere:"Sciences", trimestre:1, note:13.0, coeff:2, appreciation:"Assez bien", professeurId:1 },
+  { id:5, eleveId:1, matiere:"EPS", trimestre:1, note:16.0, coeff:1, appreciation:"Très actif", professeurId:1 },
+  { id:6, eleveId:1, matiere:"Mathématiques", trimestre:2, note:15.5, coeff:3, appreciation:"Progrès remarquables", professeurId:1 },
+  { id:7, eleveId:1, matiere:"Français", trimestre:2, note:13.5, coeff:3, appreciation:"Des efforts visibles", professeurId:2 },
+  { id:8, eleveId:1, matiere:"Histoire-Géo", trimestre:2, note:14.0, coeff:2, appreciation:"Bien", professeurId:2 },
+  { id:9, eleveId:2, matiere:"Mathématiques", trimestre:1, note:11.0, coeff:3, appreciation:"Des lacunes à combler", professeurId:1 },
+  { id:10, eleveId:2, matiere:"Français", trimestre:1, note:16.5, coeff:3, appreciation:"Excellente expression écrite", professeurId:2 },
+  { id:11, eleveId:2, matiere:"Histoire-Géo", trimestre:1, note:14.5, coeff:2, appreciation:"Bon niveau", professeurId:2 },
+  { id:12, eleveId:2, matiere:"Sciences", trimestre:1, note:13.5, coeff:2, appreciation:"Satisfaisant", professeurId:1 },
+  { id:13, eleveId:3, matiere:"Calcul", trimestre:1, note:17.0, coeff:3, appreciation:"Très bon", professeurId:3 },
+  { id:14, eleveId:3, matiere:"Lecture", trimestre:1, note:15.0, coeff:3, appreciation:"Bon lecteur", professeurId:3 },
+  { id:15, eleveId:3, matiere:"Sciences", trimestre:1, note:14.0, coeff:2, appreciation:"Curieux et attentif", professeurId:3 },
+]
+
+export const emploisDuTemps = {
+  "6ème A": [
+    { jour:"Lundi", heures:[
+      { debut:"07:30", fin:"09:30", matiere:"Mathématiques", professeur:"M. Garba", salle:"Salle 3" },
+      { debut:"09:45", fin:"11:45", matiere:"Français", professeur:"Mme Mariama", salle:"Salle 3" },
+      { debut:"13:00", fin:"15:00", matiere:"Histoire-Géo", professeur:"Mme Mariama", salle:"Salle 3" },
+    ]},
+    { jour:"Mardi", heures:[
+      { debut:"07:30", fin:"09:30", matiere:"Sciences", professeur:"M. Garba", salle:"Labo" },
+      { debut:"09:45", fin:"11:45", matiere:"Anglais", professeur:"M. Sani", salle:"Salle 3" },
+      { debut:"13:00", fin:"14:00", matiere:"EPS", professeur:"M. Koné", salle:"Terrain" },
+    ]},
+    { jour:"Mercredi", heures:[
+      { debut:"07:30", fin:"09:30", matiere:"Mathématiques", professeur:"M. Garba", salle:"Salle 3" },
+      { debut:"09:45", fin:"11:45", matiere:"Arts Plastiques", professeur:"Mme Labo", salle:"Salle Art" },
+    ]},
+    { jour:"Jeudi", heures:[
+      { debut:"07:30", fin:"09:30", matiere:"Français", professeur:"Mme Mariama", salle:"Salle 3" },
+      { debut:"09:45", fin:"11:45", matiere:"Histoire-Géo", professeur:"Mme Mariama", salle:"Salle 3" },
+      { debut:"13:00", fin:"15:00", matiere:"Mathématiques", professeur:"M. Garba", salle:"Salle 3" },
+    ]},
+    { jour:"Vendredi", heures:[
+      { debut:"07:30", fin:"09:30", matiere:"Sciences", professeur:"M. Garba", salle:"Labo" },
+      { debut:"09:45", fin:"10:45", matiere:"EPS", professeur:"M. Koné", salle:"Terrain" },
+    ]},
+  ],
+}
+
+export const examens = [
+  { id:1, nom:"Brevet d'Études du Premier Cycle (BEPC)", niveau:"3ème", date:"2025-06-15", region:"National", statut:"À venir", inscrits:45200, centres:312 },
+  { id:2, nom:"Baccalauréat Général", niveau:"Terminale", date:"2025-06-20", region:"National", statut:"À venir", inscrits:28900, centres:205 },
+  { id:3, nom:"Certificat d'Études Primaires Élémentaires (CEPE)", niveau:"CM2", date:"2025-05-10", region:"National", statut:"Terminé", inscrits:98400, centres:820 },
+  { id:4, nom:"Concours d'Entrée en 6ème", niveau:"CM2", date:"2025-05-12", region:"National", statut:"Terminé", inscrits:95000, centres:820 },
+  { id:5, nom:"CAP (Certificat d'Aptitude Professionnelle)", niveau:"3ème Tech", date:"2025-06-18", region:"National", statut:"À venir", inscrits:8200, centres:45 },
+]
+
+export const users = [
+  { id:1, email:"parent@edupn.ne", password:"parent123", role:"parent", nom:"Issoufou", prenom:"Abdoulaye", enfants:[1,2] },
+  { id:2, email:"eleve@edupn.ne", password:"eleve123", role:"eleve", nom:"Mahamadou", prenom:"Salissou", eleveId:1 },
+  { id:3, email:"prof@edupn.ne", password:"prof123", role:"professeur", nom:"Garba", prenom:"Moussa", professeurId:1 },
+  { id:4, email:"admin@edupn.ne", password:"admin123", role:"admin", nom:"Administrateur", prenom:"EduPN" },
+]
+
+export const stats = {
+  totalEleves: 45280,
+  totalEcoles: 8420,
+  totalProfesseurs: 12650,
+  tauxScolarisation: 71.4,
+}import React, { useState, createContext, useContext } from 'react'
+import { users } from './data/db.js'
+import PageAccueil from './pages/PageAccueil.jsx'
+import PageConnexion from './pages/PageConnexion.jsx'
+import PageDashboard from './pages/PageDashboard.jsx'
+import PageEcoles from './pages/PageEcoles.jsx'
+import PageEleves from './pages/PageEleves.jsx'
+import PageProfesseurs from './pages/PageProfesseurs.jsx'
+import PageExamens from './pages/PageExamens.jsx'
+import PageParents from './pages/PageParents.jsx'
+import PageNotes from './pages/PageNotes.jsx'
+import PageEmploi from './pages/PageEmploi.jsx'
+import Layout from './components/Layout.jsx'
+
+export const AppContext = createContext(null)
+export function useApp() { return useContext(AppContext) }
+
+export default function App() {
+  const [page, setPage] = useState('accueil')
+  const [currentUser, setCurrentUser] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [notification, setNotification] = useState(null)
+
+  const navigate = (p) => { setPage(p); setSidebarOpen(false); window.scrollTo(0,0) }
+
+  const login = (email, password) => {
+    const u = users.find(u => u.email === email && u.password === password)
+    if (u) {
+      setCurrentUser(u)
+      setNotification({ type:'success', msg:`Bienvenue, ${u.prenom} ${u.nom} !` })
+      setTimeout(() => setNotification(null), 3000)
+      navigate('dashboard')
+      return true
+    }
+    return false
+  }
+
+  const logout = () => { setCurrentUser(null); navigate('accueil') }
+
+  const ctx = { page, navigate, currentUser, login, logout, sidebarOpen, setSidebarOpen, notification, setNotification }
+
+  const renderPage = () => {
+    if (!currentUser && !['accueil','connexion'].includes(page)) return <PageConnexion />
+    switch(page) {
+      case 'accueil':     return <PageAccueil />
+      case 'connexion':   return <PageConnexion />
+      case 'dashboard':   return <PageDashboard />
+      case 'ecoles':      return <PageEcoles />
+      case 'eleves':      return <PageEleves />
+      case 'professeurs': return <PageProfesseurs />
+      case 'examens':     return <PageExamens />
+      case 'parents':     return <PageParents />
+      case 'notes':       return <PageNotes />
+      case 'emploi':      return <PageEmploi />
+      default:            return <PageDashboard />
+    }
+  }
+
+  return (
+    <AppContext.Provider value={ctx}>
+      {notification && (
+        <div style={{
+          position:'fixed', top:16, right:16, zIndex:9999,
+          background: notification.type==='success' ? '#2DBE8C' : '#E53E3E',
+          color:'white', padding:'12px 20px', borderRadius:10,
+          fontFamily:'Nunito,sans-serif', fontWeight:700,
+          boxShadow:'0 4px 20px rgba(0,0,0,0.2)', animation:'fadeIn 0.3s ease'
+        }}>
+          {notification.msg}
+        </div>
+      )}
+      {['accueil','connexion'].includes(page) ? renderPage() : <Layout>{renderPage()}</Layout>}
+    </AppContext.Provider>
+  )
+}import React from 'react'
+import Sidebar from './Sidebar.jsx'
+import Topbar from './Topbar.jsx'
+
+export default function Layout({ children }) {
+  return (
+    <div id="app-layout">
+      <Sidebar />
+      <div id="main-content">
+        <Topbar />
+        <div id="page-content" className="animate-fade">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}import React from 'react'
+import { useApp } from '../App.jsx'
+
+const navItems = [
+  { id:'dashboard', label:'Tableau de bord', icon:'⊞', roles:['admin','parent','eleve','professeur'] },
+  { id:'ecoles', label:'Écoles', icon:'🏫', roles:['admin'] },
+  { id:'eleves', label:'Élèves', icon:'👨‍🎓', roles:['admin','professeur'] },
+  { id:'professeurs', label:'Professeurs', icon:'👨‍🏫', roles:['admin'] },
+  { id:'notes', label:'Notes & Bulletins', icon:'📊', roles:['admin','professeur','eleve','parent'] },
+  { id:'emploi', label:'Emploi du temps', icon:'🗓️', roles:['admin','professeur','eleve','parent'] },
+  { id:'examens', label:'Examens & Concours', icon:'📝', roles:['admin','eleve','parent','professeur'] },
+  { id:'parents', label:'Espace Parents', icon:'👨‍👩‍👧', roles:['admin','parent'] },
+]
+
+export default function Sidebar() {
+  const { page, navigate, currentUser, logout, sidebarOpen } = useApp()
+  const role = currentUser?.role || 'eleve'
+  const filtered = navItems.filter(i => i.roles.includes(role))
+  const roleColor = { admin:'#F6A623', parent:'#2DBE8C', eleve:'#667EEA', professeur:'#ED8936' }[role] || '#2DBE8C'
+
+  return (
+    <nav id="sidebar" className={sidebarOpen ? 'open' : ''} style={{overflowY:'auto'}}>
+      {/* Logo */}
+      <div style={{padding:'24px 20px 16px', borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
+        <div style={{display:'flex', alignItems:'center', gap:10}}>
+          <div style={{width:40,height:40,borderRadius:10,background:'linear-gradient(135deg,#2DBE8C,#1B8C65)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:900,color:'white',fontSize:'1.2rem'}}>E</div>
+          <div>
+            <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'white',fontSize:'1.2rem',lineHeight:1}}>EduPN</div>
+            <div style={{color:'rgba(255,255,255,0.5)',fontSize:'0.7rem'}}>Plateforme Éducative</div>
+          </div>
+        </div>
+      </div>
+
+      {/* User badge */}
+      <div style={{padding:'14px 20px', borderBottom:'1px solid rgba(255,255,255,0.08)'}}>
+        <div style={{background:'rgba(255,255,255,0.07)',borderRadius:10,padding:'10px 14px',display:'flex',alignItems:'center',gap:10}}>
+          <div style={{width:34,height:34,borderRadius:'50%',background:roleColor,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.9rem',fontWeight:800,color:'white',fontFamily:'Nunito,sans-serif',flexShrink:0}}>
+            {currentUser ? (currentUser.prenom[0]+currentUser.nom[0]) : 'U'}
+          </div>
+          <div style={{overflow:'hidden'}}>
+            <div style={{color:'white',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.85rem',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+              {currentUser ? `${currentUser.prenom} ${currentUser.nom}` : 'Utilisateur'}
+            </div>
+            <div style={{color:roleColor,fontSize:'0.7rem',fontFamily:'Nunito,sans-serif',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.05em'}}>{role}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Nav items */}
+      <div style={{flex:1, padding:'12px'}}>
+        <div style={{color:'rgba(255,255,255,0.35)',fontSize:'0.65rem',fontFamily:'Nunito,sans-serif',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',padding:'8px 8px 4px'}}>Navigation</div>
+        {filtered.map(item => {
+          const active = page === item.id
+          return (
+            <button key={item.id} onClick={() => navigate(item.id)} style={{
+              width:'100%',display:'flex',alignItems:'center',gap:10,
+              padding:'10px 12px',borderRadius:10,marginBottom:2,
+              background: active ? roleColor : 'transparent',
+              color: active ? 'white' : 'rgba(255,255,255,0.7)',
+              fontFamily:'Nunito,sans-serif',fontWeight:active?700:500,
+              fontSize:'0.9rem',transition:'all 0.2s',border:'none',cursor:'pointer',textAlign:'left'
+            }}
+            onMouseEnter={e => { if(!active) e.currentTarget.style.background='rgba(255,255,255,0.08)' }}
+            onMouseLeave={e => { if(!active) e.currentTarget.style.background='transparent' }}>
+              <span style={{fontSize:'1.1rem'}}>{item.icon}</span>
+              {item.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Logout */}
+      <div style={{padding:'12px', borderTop:'1px solid rgba(255,255,255,0.08)'}}>
+        <button onClick={logout} style={{width:'100%',display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderRadius:10,background:'rgba(229,62,62,0.15)',color:'#FC8181',fontFamily:'Nunito,sans-serif',fontWeight:600,fontSize:'0.85rem',border:'none',cursor:'pointer'}}>
+          ⬅️ Déconnexion
+        </button>
+        <div style={{textAlign:'center',marginTop:10,color:'rgba(255,255,255,0.2)',fontSize:'0.65rem',fontFamily:'Nunito,sans-serif'}}>EduPN v1.0 © 2025</div>
+      </div>
+    </nav>
+  )
+}import React, { useState } from 'react'
+import { useApp } from '../App.jsx'
+
+const pageNames = {
+  dashboard:'Tableau de bord', ecoles:'Écoles', eleves:'Élèves',
+  professeurs:'Professeurs', notes:'Notes & Bulletins',
+  emploi:'Emploi du temps', examens:'Examens & Concours', parents:'Espace Parents'
+}
+
+export default function Topbar() {
+  const { page, currentUser, setSidebarOpen } = useApp()
+  const [search, setSearch] = useState('')
+
+  return (
+    <div id="topbar">
+      <div style={{display:'flex', alignItems:'center', gap:16}}>
+        <button onClick={() => setSidebarOpen(o=>!o)} style={{background:'none',border:'none',cursor:'pointer',padding:4,display:'flex',flexDirection:'column',gap:5}}>
+          {[0,1,2].map(i=><div key={i} style={{width:22,height:2,background:'#4A5568',borderRadius:2}}/>)}
+        </button>
+        <div>
+          <h2 style={{fontSize:'1.1rem',fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',margin:0}}>{pageNames[page]||'EduPN'}</h2>
+          <div style={{fontSize:'0.7rem',color:'#718096',fontFamily:'Nunito,sans-serif'}}>Année scolaire 2024–2025</div>
+        </div>
+      </div>
+      <div style={{display:'flex', alignItems:'center', gap:12}}>
+        <div style={{position:'relative',display:'flex',alignItems:'center'}}>
+          <span style={{position:'absolute',left:10,color:'#A0AEC0',fontSize:'0.85rem'}}>🔍</span>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Rechercher..." className="input"
+            style={{paddingLeft:30,width:200,padding:'7px 12px 7px 30px',fontSize:'0.82rem'}} />
+        </div>
+        <div style={{width:36,height:36,borderRadius:'50%',background:'linear-gradient(135deg,#2DBE8C,#1B8C65)',display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontWeight:800,fontFamily:'Nunito,sans-serif',fontSize:'0.85rem',flexShrink:0}}>
+          {currentUser ? (currentUser.prenom[0]+currentUser.nom[0]).toUpperCase() : 'U'}
+        </div>
+      </div>
+    </div>
+  )
+}import React from 'react'
+import { useApp } from '../App.jsx'
+import { stats } from '../data/db.js'
+
+const StatCard = ({ value, label, color }) => (
+  <div style={{background:'rgba(255,255,255,0.12)',backdropFilter:'blur(10px)',borderRadius:16,padding:'20px 24px',border:'1px solid rgba(255,255,255,0.2)',textAlign:'center'}}>
+    <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'2rem',color}}>{value}</div>
+    <div style={{color:'rgba(255,255,255,0.75)',fontSize:'0.85rem',fontFamily:'Nunito,sans-serif',marginTop:2}}>{label}</div>
+  </div>
+)
+
+const FeatureCard = ({ emoji, title, desc }) => (
+  <div style={{background:'white',borderRadius:16,padding:24,boxShadow:'0 2px 12px rgba(27,58,107,0.07)',border:'1px solid #EEF2FF',transition:'all 0.25s'}}
+    onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 8px 30px rgba(27,58,107,0.14)'}}
+    onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 2px 12px rgba(27,58,107,0.07)'}}>
+    <div style={{fontSize:'2rem',marginBottom:12}}>{emoji}</div>
+    <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,fontSize:'1.05rem',color:'#1B3A6B',marginBottom:6}}>{title}</h3>
+    <p style={{fontSize:'0.875rem',color:'#718096',lineHeight:1.6}}>{desc}</p>
+  </div>
+)
+
+export default function PageAccueil() {
+  const { navigate, login } = useApp()
+
+  return (
+    <div style={{minHeight:'100vh',background:'#F8FAFF'}}>
+      {/* NAV */}
+      <nav style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 5vw',height:64,background:'white',boxShadow:'0 1px 0 #E2E8F0',position:'sticky',top:0,zIndex:100}}>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <div style={{width:38,height:38,borderRadius:10,background:'linear-gradient(135deg,#2DBE8C,#1B8C65)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:900,color:'white',fontSize:'1.2rem'}}>E</div>
+          <span style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>EduPN</span>
+        </div>
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn btn-ghost btn-sm" onClick={()=>navigate('connexion')}>Connexion</button>
+          <button className="btn btn-mint btn-sm" onClick={()=>navigate('connexion')}>Commencer</button>
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section style={{background:'linear-gradient(135deg,#0F2347 0%,#1B3A6B 50%,#2A5298 100%)',padding:'80px 5vw 60px',position:'relative',overflow:'hidden'}}>
+        <div style={{maxWidth:900,margin:'0 auto',textAlign:'center',position:'relative'}}>
+          <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(45,190,140,0.2)',borderRadius:100,padding:'6px 16px',marginBottom:24,border:'1px solid rgba(45,190,140,0.4)'}}>
+            <span style={{color:'#2DBE8C',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.85rem'}}>🇳🇪 Ministère de l'Éducation Nationale — Niger</span>
+          </div>
+          <h1 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.15,marginBottom:20}}>
+            La digitalisation de<br/><span style={{color:'#2DBE8C'}}>l'éducation nationale</span><br/>au Niger
+          </h1>
+          <p style={{color:'rgba(255,255,255,0.75)',fontSize:'clamp(0.95rem,2vw,1.15rem)',maxWidth:600,margin:'0 auto 36px',lineHeight:1.7}}>
+            EduPN connecte parents, élèves, professeurs et administrateurs pour une gestion transparente et sécurisée des établissements scolaires.
+          </p>
+          <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
+            <button className="btn btn-mint btn-lg" onClick={()=>navigate('connexion')}>🚀 Accéder à la plateforme</button>
+          </div>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:16,maxWidth:860,margin:'60px auto 0'}}>
+          <StatCard value={stats.totalEleves.toLocaleString('fr')} label="Élèves inscrits" color="#2DBE8C" />
+          <StatCard value={stats.totalEcoles.toLocaleString('fr')} label="Établissements" color="#F6A623" />
+          <StatCard value={stats.totalProfesseurs.toLocaleString('fr')} label="Enseignants" color="#9F7AEA" />
+          <StatCard value={stats.tauxScolarisation+'%'} label="Taux de scolarisation" color="#F687B3" />
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section style={{padding:'72px 5vw',maxWidth:1200,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:48}}>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'clamp(1.6rem,3vw,2.4rem)',color:'#1B3A6B'}}>Tout ce dont vous avez besoin</h2>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:20}}>
+          <FeatureCard emoji="📊" title="Gestion des notes" desc="Saisie, consultation et édition des bulletins scolaires en temps réel." />
+          <FeatureCard emoji="🗓️" title="Emplois du temps" desc="Planification et affichage des emplois du temps par classe et établissement." />
+          <FeatureCard emoji="👨‍👩‍👧" title="Suivi parental" desc="Les parents suivent notes, présences, examens et bulletins de leurs enfants." />
+          <FeatureCard emoji="🏫" title="Gestion des écoles" desc="Répertoire complet des établissements avec effectifs et informations administratives." />
+          <FeatureCard emoji="📝" title="Examens & Concours" desc="BEPC, BAC, CEPE : suivi des inscriptions, centres d'examen et résultats." />
+          <FeatureCard emoji="🔒" title="Sécurité & Anti-fraude" desc="Authentification sécurisée, traçabilité des saisies et contrôle d'accès par rôle." />
+        </div>
+      </section>
+
+      {/* DEMO */}
+      <section style={{padding:'60px 5vw',background:'white',borderTop:'1px solid #EEF2FF'}}>
+        <div style={{maxWidth:700,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:36}}>
+            <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.8rem',color:'#1B3A6B'}}>🎯 Accès démo rapide</h2>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            {[
+              {role:'Administrateur',email:'admin@edupn.ne',password:'admin123',color:'#F6A623',icon:'⚙️'},
+              {role:'Professeur',email:'prof@edupn.ne',password:'prof123',color:'#667EEA',icon:'👨‍🏫'},
+              {role:'Parent',email:'parent@edupn.ne',password:'parent123',color:'#2DBE8C',icon:'👨‍👩‍👧'},
+              {role:'Élève',email:'eleve@edupn.ne',password:'eleve123',color:'#ED8936',icon:'👨‍🎓'},
+            ].map(u=>(
+              <button key={u.role} onClick={()=>login(u.email,u.password)} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',borderRadius:12,border:`2px solid ${u.color}20`,background:`${u.color}08`,cursor:'pointer',transition:'all 0.2s',width:'100%',textAlign:'left'}}
+                onMouseEnter={e=>e.currentTarget.style.background=`${u.color}15`}
+                onMouseLeave={e=>e.currentTarget.style.background=`${u.color}08`}>
+                <span style={{fontSize:'1.5rem'}}>{u.icon}</span>
+                <div>
+                  <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.9rem',color:'#1B3A6B'}}>{u.role}</div>
+                  <div style={{fontSize:'0.75rem',color:'#718096'}}>{u.email} / {u.password}</div>
+                </div>
+                <div style={{marginLeft:'auto',background:u.color,color:'white',borderRadius:6,padding:'4px 10px',fontSize:'0.75rem',fontWeight:700,fontFamily:'Nunito,sans-serif'}}>Accéder →</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{background:'#0F2347',color:'rgba(255,255,255,0.5)',textAlign:'center',padding:'28px 5vw'}}>
+        <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:'rgba(255,255,255,0.8)',fontSize:'1rem',marginBottom:6}}>🇳🇪 EduPN — Plateforme Éducative Nationale du Niger</div>
+        <div style={{fontSize:'0.8rem'}}>© 2025 Ministère de l'Éducation Nationale</div>
+      </footer>
+    </div>
+  )import React, { useState } from 'react'
+import { useApp } from '../App.jsx'
+
+export default function PageConnexion() {
+  const { login, navigate } = useApp()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async () => {
+    if (!email || !password) { setError('Veuillez remplir tous les champs.'); return }
+    setLoading(true); setError('')
+    await new Promise(r => setTimeout(r, 600))
+    const ok = login(email, password)
+    if (!ok) setError('Identifiants incorrects.')
+    setLoading(false)
+  }
+
+  return (
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#0F2347 0%,#1B3A6B 60%,#2DBE8C 100%)'}}>
+      <div style={{background:'white',borderRadius:20,padding:'36px 32px',width:'100%',maxWidth:420,boxShadow:'0 20px 60px rgba(0,0,0,0.3)',animation:'fadeIn 0.4s ease'}}>
+        <div style={{textAlign:'center',marginBottom:28}}>
+          <div style={{width:56,height:56,borderRadius:14,background:'linear-gradient(135deg,#1B3A6B,#2A5298)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px',fontFamily:'Nunito,sans-serif',fontWeight:900,color:'white',fontSize:'1.8rem'}}>E</div>
+          <h1 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.6rem',color:'#1B3A6B'}}>EduPN</h1>
+          <p style={{color:'#718096',fontSize:'0.85rem',marginTop:4}}>Plateforme Éducative Nationale</p>
+        </div>
+
+        <div style={{display:'flex',flexDirection:'column',gap:16}}>
+          <div className="input-group">
+            <label>Adresse e-mail</label>
+            <input className="input" type="email" placeholder="votre@email.ne" value={email}
+              onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleSubmit()} />
+          </div>
+          <div className="input-group">
+            <label>Mot de passe</label>
+            <input className="input" type="password" placeholder="••••••••" value={password}
+              onChange={e=>setPassword(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleSubmit()} />
+          </div>
+          {error && <div style={{background:'#FFF5F5',border:'1px solid #FED7D7',color:'#C53030',borderRadius:8,padding:'10px 14px',fontSize:'0.85rem'}}>⚠️ {error}</div>}
+          <button className="btn btn-primary btn-lg" onClick={handleSubmit} style={{width:'100%',justifyContent:'center',opacity:loading?0.7:1}}>
+            {loading ? '⏳ Connexion...' : '🔐 Se connecter'}
+          </button>
+        </div>
+
+        <div style={{marginTop:24,borderTop:'1px solid #EEF2FF',paddingTop:20}}>
+          <p style={{fontSize:'0.75rem',color:'#A0AEC0',textAlign:'center',marginBottom:12,fontFamily:'Nunito,sans-serif',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.05em'}}>Accès rapide démo</p>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+            {[
+              {l:'Admin',e:'admin@edupn.ne',p:'admin123',c:'#F6A623',i:'⚙️'},
+              {l:'Professeur',e:'prof@edupn.ne',p:'prof123',c:'#667EEA',i:'👨‍🏫'},
+              {l:'Parent',e:'parent@edupn.ne',p:'parent123',c:'#2DBE8C',i:'👨‍👩‍👧'},
+              {l:'Élève',e:'eleve@edupn.ne',p:'eleve123',c:'#ED8936',i:'👨‍🎓'},
+            ].map(u=>(
+              <button key={u.l} onClick={()=>{setEmail(u.e);setPassword(u.p)}} style={{padding:'8px',borderRadius:8,border:`1.5px solid ${u.c}30`,background:`${u.c}08`,cursor:'pointer',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.8rem',color:'#1B3A6B',display:'flex',alignItems:'center',gap:6}}>
+                {u.i} {u.l}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button onClick={()=>navigate('accueil')} style={{display:'block',textAlign:'center',marginTop:20,color:'#718096',fontSize:'0.82rem',background:'none',border:'none',cursor:'pointer',width:'100%',fontFamily:'Nunito,sans-serif'}}>← Retour à l'accueil</button>
+      </div>
+    </div>
+  )
+}import React from 'react'
+import { useApp } from '../App.jsx'
+import { eleves, professeurs, ecoles, notes, examens, stats } from '../data/db.js'
+
+const KpiCard = ({ label, value, sub, color, icon, onClick }) => (
+  <div className="card" onClick={onClick} style={{borderLeft:`4px solid ${color}`,cursor:onClick?'pointer':'default',display:'flex',alignItems:'center',gap:16}}
+    onMouseEnter={e=>onClick&&(e.currentTarget.style.transform='translateY(-2px)')}
+    onMouseLeave={e=>onClick&&(e.currentTarget.style.transform='translateY(0)')}>
+    <div style={{width:52,height:52,borderRadius:14,background:`${color}15`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',flexShrink:0}}>{icon}</div>
+    <div>
+      <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.6rem',color:'#1B3A6B',lineHeight:1}}>{value}</div>
+      <div style={{fontWeight:600,color:'#4A5568',fontSize:'0.85rem',marginTop:2}}>{label}</div>
+      {sub && <div style={{color:'#A0AEC0',fontSize:'0.75rem'}}>{sub}</div>}
+    </div>
+  </div>
+)
+
+const QuickAction = ({ label, icon, color, onClick }) => (
+  <button onClick={onClick} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'18px 12px',borderRadius:12,border:`1.5px solid ${color}25`,background:`${color}06`,cursor:'pointer',transition:'all 0.2s',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.82rem',color:'#1B3A6B',minWidth:100}}
+    onMouseEnter={e=>{e.currentTarget.style.background=`${color}15`;e.currentTarget.style.transform='translateY(-2px)'}}
+    onMouseLeave={e=>{e.currentTarget.style.background=`${color}06`;e.currentTarget.style.transform='translateY(0)'}}>
+    <span style={{fontSize:'1.6rem'}}>{icon}</span>
+    <span style={{textAlign:'center',lineHeight:1.3}}>{label}</span>
+  </button>
+)
+
+export default function PageDashboard() {
+  const { currentUser, navigate } = useApp()
+  const role = currentUser?.role || 'eleve'
+
+  if (role === 'admin') return (
+    <div className="animate-fade">
+      <div style={{marginBottom:24}}>
+        <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.5rem',color:'#1B3A6B'}}>Bonjour, {currentUser.prenom} 👋</h2>
+        <p style={{color:'#718096',fontSize:'0.9rem'}}>Vue d'ensemble du système éducatif national</p>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:16,marginBottom:28}}>
+        <KpiCard label="Élèves inscrits" value={stats.totalEleves.toLocaleString('fr')} sub="+3.2% vs 2023" color="#2DBE8C" icon="👨‍🎓" onClick={()=>navigate('eleves')} />
+        <KpiCard label="Établissements" value={stats.totalEcoles.toLocaleString('fr')} sub="8 régions" color="#1B3A6B" icon="🏫" onClick={()=>navigate('ecoles')} />
+        <KpiCard label="Enseignants" value={stats.totalProfesseurs.toLocaleString('fr')} sub="dont 78% titulaires" color="#F6A623" icon="👨‍🏫" onClick={()=>navigate('professeurs')} />
+        <KpiCard label="Scolarisation" value={stats.tauxScolarisation+'%'} sub="Objectif 85% en 2026" color="#667EEA" icon="📈" />
+      </div>
+      <div className="card" style={{marginBottom:24}}>
+        <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Actions rapides</h3>
+        <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+          <QuickAction label="Ajouter une école" icon="🏫" color="#1B3A6B" onClick={()=>navigate('ecoles')} />
+          <QuickAction label="Inscrire un élève" icon="👨‍🎓" color="#2DBE8C" onClick={()=>navigate('eleves')} />
+          <QuickAction label="Gérer professeurs" icon="👨‍🏫" color="#F6A623" onClick={()=>navigate('professeurs')} />
+          <QuickAction label="Voir examens" icon="📝" color="#667EEA" onClick={()=>navigate('examens')} />
+          <QuickAction label="Notes" icon="📊" color="#ED8936" onClick={()=>navigate('notes')} />
+        </div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:20}}>
+        <div className="card">
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Derniers élèves inscrits</h3>
+          {eleves.slice(0,5).map(e=>(
+            <div key={e.id} style={{display:'flex',alignItems:'center',gap:12,padding:'10px 0',borderBottom:'1px solid #EEF2FF'}}>
+              <div style={{width:36,height:36,borderRadius:10,flexShrink:0,background:e.sexe==='F'?'#FED7E2':'#BEE3F8',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.9rem',color:e.sexe==='F'?'#B83280':'#2C5282'}}>{e.prenom[0]}{e.nom[0]}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:600,fontSize:'0.9rem',color:'#1B3A6B'}}>{e.prenom} {e.nom}</div>
+                <div style={{fontSize:'0.75rem',color:'#718096'}}>{e.classe} • {ecoles.find(s=>s.id===e.ecoleId)?.nom?.split(' ').slice(0,3).join(' ')}</div>
+              </div>
+              <span className="badge badge-cobalt">{e.matricule}</span>
+            </div>
+          ))}
+        </div>
+        <div className="card">
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Examens nationaux à venir</h3>
+          {examens.filter(e=>e.statut==='À venir').map(ex=>(
+            <div key={ex.id} style={{padding:'12px 0',borderBottom:'1px solid #EEF2FF'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:8}}>
+                <div style={{fontWeight:700,fontSize:'0.88rem',color:'#1B3A6B',lineHeight:1.3}}>{ex.nom}</div>
+                <span className="badge badge-amber">{ex.statut}</span>
+              </div>
+              <div style={{fontSize:'0.78rem',color:'#718096',marginTop:4}}>📅 {new Date(ex.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})} • {ex.inscrits.toLocaleString('fr')} inscrits</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+
+  if (role === 'eleve') {
+    const eleveId = currentUser.eleveId || 1
+    const eleve = eleves.find(e=>e.id===eleveId)
+    const mesNotes = notes.filter(n=>n.eleveId===eleveId && n.trimestre===1)
+    const ecole = ecoles.find(s=>s.id===eleve?.ecoleId)
+    const moy = mesNotes.length ? (mesNotes.reduce((a,n)=>a+n.note*n.coeff,0)/mesNotes.reduce((a,n)=>a+n.coeff,0)).toFixed(2) : '-'
+    return (
+      <div className="animate-fade">
+        <div style={{marginBottom:24}}>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.5rem',color:'#1B3A6B'}}>Bonjour, {eleve?.prenom} 👋</h2>
+          <p style={{color:'#718096',fontSize:'0.9rem'}}>{eleve?.classe} • {ecole?.nom}</p>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:16,marginBottom:24}}>
+          <KpiCard label="Moyenne générale" value={moy} sub="Trimestre 1" color="#2DBE8C" icon="📊" onClick={()=>navigate('notes')} />
+          <KpiCard label="Matières" value={mesNotes.length} sub="ce trimestre" color="#1B3A6B" icon="📚" />
+          <KpiCard label="Examens à venir" value={examens.filter(e=>e.statut==='À venir').length} color="#F6A623" icon="📝" onClick={()=>navigate('examens')} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+          <div className="card">
+            <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Mes dernières notes</h3>
+            {mesNotes.map(n=>(
+              <div key={n.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 0',borderBottom:'1px solid #EEF2FF'}}>
+                <div>
+                  <div style={{fontWeight:600,fontSize:'0.9rem',color:'#1B3A6B'}}>{n.matiere}</div>
+                  <div style={{fontSize:'0.75rem',color:'#718096'}}>{n.appreciation}</div>
+                </div>
+                <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.2rem',color:n.note>=14?'#2DBE8C':n.note>=10?'#F6A623':'#E53E3E'}}>{n.note}/20</div>
+              </div>
+            ))}
+            <button className="btn btn-ghost btn-sm" style={{marginTop:12}} onClick={()=>navigate('notes')}>Voir le bulletin complet →</button>
+          </div>
+          <div className="card">
+            <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Accès rapide</h3>
+            <div style={{display:'flex',flexWrap:'wrap',gap:10}}>
+              <QuickAction label="Mon bulletin" icon="📋" color="#2DBE8C" onClick={()=>navigate('notes')} />
+              <QuickAction label="Emploi du temps" icon="🗓️" color="#1B3A6B" onClick={()=>navigate('emploi')} />
+              <QuickAction label="Examens" icon="📝" color="#F6A623" onClick={()=>navigate('examens')} />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (role === 'professeur') {
+    const profId = currentUser.professeurId || 1
+    const prof = professeurs.find(p=>p.id===profId)
+    const mesNotes = notes.filter(n=>n.professeurId===profId)
+    return (
+      <div className="animate-fade">
+        <div style={{marginBottom:24}}>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.5rem',color:'#1B3A6B'}}>Bonjour, M. {prof?.nom} 👋</h2>
+          <p style={{color:'#718096',fontSize:'0.9rem'}}>{prof?.matieres?.join(', ')} • {prof?.classe}</p>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:16,marginBottom:24}}>
+          <KpiCard label="Notes saisies" value={mesNotes.length} color="#667EEA" icon="✏️" onClick={()=>navigate('notes')} />
+          <KpiCard label="Mes matières" value={prof?.matieres?.length||0} color="#2DBE8C" icon="📚" />
+          <KpiCard label="Mes classes" value={prof?.classe?.split('/').length||1} color="#F6A623" icon="👨‍🎓" />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+          <div className="card">
+            <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Mes notes récentes</h3>
+            {mesNotes.slice(0,6).map(n=>{
+              const eleve = eleves.find(e=>e.id===n.eleveId)
+              return (
+                <div key={n.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid #EEF2FF'}}>
+                  <div>
+                    <div style={{fontWeight:600,fontSize:'0.88rem'}}>{eleve?.prenom} {eleve?.nom}</div>
+                    <div style={{fontSize:'0.75rem',color:'#718096'}}>{n.matiere} • T{n.trimestre}</div>
+                  </div>
+                  <span style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:n.note>=14?'#2DBE8C':n.note>=10?'#F6A623':'#E53E3E'}}>{n.note}/20</span>
+                </div>
+              )
+            })}
+          </div>
+          <div className="card">
+            <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,marginBottom:16,color:'#1B3A6B'}}>Actions</h3>
+            <div style={{display:'flex',flexWrap:'wrap',gap:10}}>
+              <QuickAction label="Saisir notes" icon="✏️" color="#667EEA" onClick={()=>navigate('notes')} />
+              <QuickAction label="Mes élèves" icon="👨‍🎓" color="#2DBE8C" onClick={()=>navigate('eleves')} />
+              <QuickAction label="Emploi du temps" icon="🗓️" color="#F6A623" onClick={()=>navigate('emploi')} />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Parent
+  const enfantIds = currentUser.enfants || []
+  const mesEnfants = eleves.filter(e=>enfantIds.includes(e.id))
+  return (
+    <div className="animate-fade">
+      <div style={{marginBottom:24}}>
+        <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.5rem',color:'#1B3A6B'}}>Bonjour, {currentUser.prenom} 👋</h2>
+        <p style={{color:'#718096',fontSize:'0.9rem'}}>Suivi scolaire de vos enfants</p>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+        {mesEnfants.map(enfant=>{
+          const enfNotes = notes.filter(n=>n.eleveId===enfant.id && n.trimestre===1)
+          const moy = enfNotes.length ? (enfNotes.reduce((a,n)=>a+n.note*n.coeff,0)/enfNotes.reduce((a,n)=>a+n.coeff,0)).toFixed(2) : '-'
+          const ecole = ecoles.find(s=>s.id===enfant.ecoleId)
+          return (
+            <div key={enfant.id} className="card" style={{borderTop:'4px solid #2DBE8C'}}>
+              <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
+                <div style={{width:44,height:44,borderRadius:12,flexShrink:0,background:enfant.sexe==='F'?'#FED7E2':'#BEE3F8',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:800,fontSize:'1.1rem',color:enfant.sexe==='F'?'#B83280':'#2C5282'}}>{enfant.prenom[0]}{enfant.nom[0]}</div>
+                <div>
+                  <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'1rem'}}>{enfant.prenom} {enfant.nom}</div>
+                  <div style={{fontSize:'0.78rem',color:'#718096'}}>{enfant.classe} • {ecole?.nom?.split(' ').slice(0,3).join(' ')}</div>
+                </div>
+                <div style={{marginLeft:'auto',textAlign:'right'}}>
+                  <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.4rem',color:parseFloat(moy)>=14?'#2DBE8C':parseFloat(moy)>=10?'#F6A623':'#E53E3E'}}>{moy}</div>
+                  <div style={{fontSize:'0.7rem',color:'#A0AEC0'}}>moy. T1</div>
+                </div>
+              </div>
+              <div style={{display:'flex',gap:8}}>
+                <button className="btn btn-ghost btn-sm" onClick={()=>navigate('notes')}>📊 Notes</button>
+                <button className="btn btn-ghost btn-sm" onClick={()=>navigate('emploi')}>🗓️ EDT</button>
+                <button className="btn btn-ghost btn-sm" onClick={()=>navigate('parents')}>👁️ Détail</button>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}import React, { useState } from 'react'
+import { ecoles as initialEcoles } from '../data/db.js'
+
+export default function PageEcoles() {
+  const [ecoles, setEcoles] = useState(initialEcoles)
+  const [search, setSearch] = useState('')
+  const [filterType, setFilterType] = useState('Tous')
+  const [showForm, setShowForm] = useState(false)
+  const [selected, setSelected] = useState(null)
+  const [form, setForm] = useState({ nom:'',type:'Primaire',commune:'',region:'Niamey',directeur:'',statut:'Publique',code:'' })
+
+  const filtered = ecoles.filter(e => {
+    const q = search.toLowerCase()
+    return (e.nom+e.commune+e.region).toLowerCase().includes(q) && (filterType==='Tous'||e.type===filterType)
+  })
+
+  const handleAdd = () => {
+    if (!form.nom || !form.commune) return
+    setEcoles(p=>[{ ...form, id:Date.now(), eleves:0, professeurs:0 }, ...p])
+    setForm({ nom:'',type:'Primaire',commune:'',region:'Niamey',directeur:'',statut:'Publique',code:'' })
+    setShowForm(false)
+  }
+
+  return (
+    <div className="animate-fade">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <div>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Établissements scolaires</h2>
+          <p style={{color:'#718096',fontSize:'0.85rem'}}>{filtered.length} établissement(s)</p>
+        </div>
+        <button className="btn btn-mint" onClick={()=>setShowForm(!showForm)}>{showForm?'✕ Annuler':'+ Ajouter un établissement'}</button>
+      </div>
+
+      {showForm && (
+        <div className="card animate-fade" style={{marginBottom:20,borderTop:'4px solid #2DBE8C'}}>
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:16}}>Nouvel établissement</h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:14}}>
+            <div className="input-group"><label>Nom</label><input className="input" value={form.nom} onChange={e=>setForm(p=>({...p,nom:e.target.value}))} placeholder="École..." /></div>
+            <div className="input-group"><label>Commune</label><input className="input" value={form.commune} onChange={e=>setForm(p=>({...p,commune:e.target.value}))} /></div>
+            <div className="input-group"><label>Directeur</label><input className="input" value={form.directeur} onChange={e=>setForm(p=>({...p,directeur:e.target.value}))} /></div>
+            <div className="input-group"><label>Code</label><input className="input" value={form.code} onChange={e=>setForm(p=>({...p,code:e.target.value}))} placeholder="REG-000" /></div>
+            <div className="input-group"><label>Type</label>
+              <select className="input" value={form.type} onChange={e=>setForm(p=>({...p,type:e.target.value}))}>
+                <option>Primaire</option><option>Secondaire</option>
+              </select>
+            </div>
+            <div className="input-group"><label>Région</label>
+              <select className="input" value={form.region} onChange={e=>setForm(p=>({...p,region:e.target.value}))}>
+                {['Niamey','Agadez','Diffa','Dosso','Maradi','Tahoua','Tillabéri','Zinder'].map(r=><option key={r}>{r}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Statut</label>
+              <select className="input" value={form.statut} onChange={e=>setForm(p=>({...p,statut:e.target.value}))}>
+                <option>Publique</option><option>Privée</option>
+              </select>
+            </div>
+          </div>
+          <div style={{marginTop:16,display:'flex',gap:10}}>
+            <button className="btn btn-primary" onClick={handleAdd}>✓ Enregistrer</button>
+            <button className="btn btn-ghost" onClick={()=>setShowForm(false)}>Annuler</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{display:'flex',gap:10,marginBottom:16,flexWrap:'wrap'}}>
+        <input className="input" placeholder="🔍 Rechercher..." value={search} onChange={e=>setSearch(e.target.value)} style={{maxWidth:280}} />
+        {['Tous','Primaire','Secondaire'].map(t=>(
+          <button key={t} className="btn btn-sm" onClick={()=>setFilterType(t)} style={{background:filterType===t?'#1B3A6B':'transparent',color:filterType===t?'white':'#4A5568',border:'1.5px solid '+(filterType===t?'#1B3A6B':'#E2E8F0')}}>{t}</button>
+        ))}
+      </div>
+
+      <div className="card" style={{padding:0}}>
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th>Établissement</th><th>Type</th><th>Région</th><th>Directeur</th><th>Élèves</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody>
+              {filtered.map(e=>(
+                <tr key={e.id}>
+                  <td><span style={{fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.8rem',color:'#1B3A6B'}}>{e.code||'—'}</span></td>
+                  <td><div style={{fontWeight:600,color:'#1B3A6B'}}>{e.nom}</div><div style={{fontSize:'0.75rem',color:'#718096'}}>{e.commune}</div></td>
+                  <td><span className={`badge ${e.type==='Primaire'?'badge-cobalt':'badge-mint'}`}>{e.type}</span></td>
+                  <td>{e.region}</td>
+                  <td>{e.directeur||'—'}</td>
+                  <td><span style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:'#1B3A6B'}}>{e.eleves}</span></td>
+                  <td><span className={`badge ${e.statut==='Publique'?'badge-mint':'badge-amber'}`}>{e.statut}</span></td>
+                  <td>
+                    <button className="btn btn-ghost btn-sm" onClick={()=>setSelected(selected?.id===e.id?null:e)}>👁️</button>
+                    <button className="btn btn-danger btn-sm" style={{marginLeft:6}} onClick={()=>setEcoles(p=>p.filter(s=>s.id!==e.id))}>🗑️</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {selected && (
+        <div className="card animate-fade" style={{marginTop:20,borderLeft:'4px solid #1B3A6B'}}>
+          <div style={{display:'flex',justifyContent:'space-between'}}>
+            <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B'}}>{selected.nom}</h3>
+            <button onClick={()=>setSelected(null)} style={{background:'none',border:'none',cursor:'pointer',fontSize:'1.2rem',color:'#A0AEC0'}}>✕</button>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:12,marginTop:16}}>
+            {[{l:'Type',v:selected.type},{l:'Statut',v:selected.statut},{l:'Région',v:selected.region},{l:'Directeur',v:selected.directeur||'—'},{l:'Élèves',v:selected.eleves},{l:'Professeurs',v:selected.professeurs}].map(({l,v})=>(
+              <div key={l} style={{background:'#F8FAFF',borderRadius:10,padding:'12px 16px'}}>
+                <div style={{fontSize:'0.7rem',color:'#A0AEC0',textTransform:'uppercase',fontFamily:'Nunito,sans-serif',fontWeight:700}}>{l}</div>
+                <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:'#1B3A6B',marginTop:4}}>{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}import React, { useState } from 'react'
+import { eleves as initEleves, ecoles } from '../data/db.js'
+
+export default function PageEleves() {
+  const [eleves, setEleves] = useState(initEleves)
+  const [search, setSearch] = useState('')
+  const [filterClasse, setFilterClasse] = useState('Tous')
+  const [filterSexe, setFilterSexe] = useState('Tous')
+  const [showForm, setShowForm] = useState(false)
+  const [form, setForm] = useState({ nom:'',prenom:'',classe:'',ecoleId:1,sexe:'M',dateNaissance:'' })
+
+  const classes = ['Tous', ...new Set(eleves.map(e=>e.classe))]
+  const filtered = eleves.filter(e=>{
+    const q = search.toLowerCase()
+    return (e.nom+' '+e.prenom+' '+e.matricule).toLowerCase().includes(q)
+      && (filterClasse==='Tous'||e.classe===filterClasse)
+      && (filterSexe==='Tous'||e.sexe===filterSexe)
+  })
+
+  const handleAdd = () => {
+    if (!form.nom||!form.prenom||!form.classe) return
+    const matricule = `EL-2025-${String(eleves.length+1).padStart(3,'0')}`
+    setEleves(p=>[{...form,id:Date.now(),matricule,ecoleId:parseInt(form.ecoleId)},...p])
+    setForm({ nom:'',prenom:'',classe:'',ecoleId:1,sexe:'M',dateNaissance:'' })
+    setShowForm(false)
+  }
+
+  return (
+    <div className="animate-fade">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <div>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Gestion des élèves</h2>
+          <p style={{color:'#718096',fontSize:'0.85rem'}}>{filtered.length} / {eleves.length} élève(s)</p>
+        </div>
+        <button className="btn btn-mint" onClick={()=>setShowForm(!showForm)}>{showForm?'✕ Fermer':'+ Inscrire un élève'}</button>
+      </div>
+
+      {showForm && (
+        <div className="card animate-fade" style={{marginBottom:20,borderTop:'4px solid #2DBE8C'}}>
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:16}}>Inscription d'un élève</h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:14}}>
+            <div className="input-group"><label>Nom</label><input className="input" value={form.nom} onChange={e=>setForm(p=>({...p,nom:e.target.value}))} /></div>
+            <div className="input-group"><label>Prénom</label><input className="input" value={form.prenom} onChange={e=>setForm(p=>({...p,prenom:e.target.value}))} /></div>
+            <div className="input-group"><label>Classe</label><input className="input" placeholder="6ème A" value={form.classe} onChange={e=>setForm(p=>({...p,classe:e.target.value}))} /></div>
+            <div className="input-group"><label>Date de naissance</label><input className="input" type="date" value={form.dateNaissance} onChange={e=>setForm(p=>({...p,dateNaissance:e.target.value}))} /></div>
+            <div className="input-group"><label>Sexe</label>
+              <select className="input" value={form.sexe} onChange={e=>setForm(p=>({...p,sexe:e.target.value}))}>
+                <option value="M">Masculin</option><option value="F">Féminin</option>
+              </select>
+            </div>
+            <div className="input-group"><label>École</label>
+              <select className="input" value={form.ecoleId} onChange={e=>setForm(p=>({...p,ecoleId:e.target.value}))}>
+                {ecoles.map(e=><option key={e.id} value={e.id}>{e.nom}</option>)}
+              </select>
+            </div>
+          </div>
+          <div style={{marginTop:16,display:'flex',gap:10}}>
+            <button className="btn btn-primary" onClick={handleAdd}>✓ Inscrire</button>
+            <button className="btn btn-ghost" onClick={()=>setShowForm(false)}>Annuler</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{display:'flex',gap:10,marginBottom:16,flexWrap:'wrap'}}>
+        <input className="input" placeholder="🔍 Nom, matricule..." value={search} onChange={e=>setSearch(e.target.value)} style={{maxWidth:250}} />
+        <select className="input" value={filterClasse} onChange={e=>setFilterClasse(e.target.value)} style={{maxWidth:160}}>
+          {classes.map(c=><option key={c}>{c}</option>)}
+        </select>
+        {['Tous','M','F'].map(s=>(
+          <button key={s} className="btn btn-sm" onClick={()=>setFilterSexe(s)} style={{background:filterSexe===s?'#1B3A6B':'transparent',color:filterSexe===s?'white':'#4A5568',border:'1.5px solid '+(filterSexe===s?'#1B3A6B':'#E2E8F0')}}>
+            {s==='Tous'?'Tous':s==='M'?'♂ Garçons':'♀ Filles'}
+          </button>
+        ))}
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:14}}>
+        {filtered.map(eleve=>{
+          const ecole = ecoles.find(s=>s.id===eleve.ecoleId)
+          return (
+            <div key={eleve.id} className="card" style={{padding:16,display:'flex',gap:14,alignItems:'flex-start'}}>
+              <div style={{width:44,height:44,borderRadius:12,flexShrink:0,background:eleve.sexe==='F'?'#FED7E2':'#BEE3F8',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:800,fontSize:'1rem',color:eleve.sexe==='F'?'#B83280':'#2C5282'}}>{eleve.prenom[0]}{eleve.nom[0]}</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.95rem'}}>{eleve.prenom} {eleve.nom}</div>
+                <div style={{fontSize:'0.75rem',color:'#718096',marginTop:2,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{eleve.classe} • {ecole?.nom?.split(' ').slice(0,3).join(' ')}</div>
+                <div style={{marginTop:6,display:'flex',gap:6}}>
+                  <span className="badge badge-cobalt" style={{fontSize:'0.7rem'}}>{eleve.matricule}</span>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      <div style={{display:'flex',gap:16,marginTop:20,flexWrap:'wrap'}}>
+        {[{l:'Total',v:eleves.length,c:'#1B3A6B'},{l:'Garçons',v:eleves.filter(e=>e.sexe==='M').length,c:'#2C5282'},{l:'Filles',v:eleves.filter(e=>e.sexe==='F').length,c:'#B83280'}].map(s=>(
+          <div key={s.l} style={{background:'white',borderRadius:10,padding:'12px 20px',boxShadow:'0 1px 6px rgba(0,0,0,0.06)',display:'flex',gap:10,alignItems:'center'}}>
+            <span style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.3rem',color:s.c}}>{s.v}</span>
+            <span style={{fontSize:'0.82rem',color:'#718096'}}>{s.l}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+}import React, { useState } from 'react'
+import { professeurs as initProfs, ecoles } from '../data/db.js'
+
+export default function PageProfesseurs() {
+  const [profs, setProfs] = useState(initProfs)
+  const [search, setSearch] = useState('')
+  const [showForm, setShowForm] = useState(false)
+  const [form, setForm] = useState({ nom:'',prenom:'',ecoleId:1,matieres:'',classe:'',grade:'Licencié',statut:'Titulaire' })
+
+  const filtered = profs.filter(p=>(p.nom+' '+p.prenom+' '+(p.matieres||[]).join(' ')).toLowerCase().includes(search.toLowerCase()))
+  const gradeColor = { Certifié:'#2DBE8C',CAPES:'#667EEA',Licencié:'#F6A623','BEPC+2':'#ED8936' }
+
+  const handleAdd = () => {
+    if (!form.nom||!form.prenom) return
+    const matricule = `PR-${String(profs.length+1).padStart(3,'0')}`
+    setProfs(p=>[{...form,id:Date.now(),matricule,ecoleId:parseInt(form.ecoleId),matieres:form.matieres.split(',').map(m=>m.trim()),dateRecrutement:new Date().toISOString().split('T')[0]},...p])
+    setForm({ nom:'',prenom:'',ecoleId:1,matieres:'',classe:'',grade:'Licencié',statut:'Titulaire' })
+    setShowForm(false)
+  }
+
+  return (
+    <div className="animate-fade">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <div>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Corps enseignant</h2>
+          <p style={{color:'#718096',fontSize:'0.85rem'}}>{filtered.length} enseignant(s)</p>
+        </div>
+        <button className="btn btn-mint" onClick={()=>setShowForm(!showForm)}>{showForm?'✕ Fermer':'+ Ajouter un professeur'}</button>
+      </div>
+
+      {showForm && (
+        <div className="card animate-fade" style={{marginBottom:20,borderTop:'4px solid #F6A623'}}>
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:16}}>Nouveau professeur</h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:14}}>
+            <div className="input-group"><label>Nom</label><input className="input" value={form.nom} onChange={e=>setForm(p=>({...p,nom:e.target.value}))} /></div>
+            <div className="input-group"><label>Prénom</label><input className="input" value={form.prenom} onChange={e=>setForm(p=>({...p,prenom:e.target.value}))} /></div>
+            <div className="input-group"><label>Matières (séparées par ,)</label><input className="input" placeholder="Maths, Physique" value={form.matieres} onChange={e=>setForm(p=>({...p,matieres:e.target.value}))} /></div>
+            <div className="input-group"><label>Classes</label><input className="input" placeholder="6ème A / 5ème B" value={form.classe} onChange={e=>setForm(p=>({...p,classe:e.target.value}))} /></div>
+            <div className="input-group"><label>École</label>
+              <select className="input" value={form.ecoleId} onChange={e=>setForm(p=>({...p,ecoleId:e.target.value}))}>
+                {ecoles.map(e=><option key={e.id} value={e.id}>{e.nom}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Grade</label>
+              <select className="input" value={form.grade} onChange={e=>setForm(p=>({...p,grade:e.target.value}))}>
+                {['Licencié','Certifié','CAPES','BEPC+2','Agrégé'].map(g=><option key={g}>{g}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Statut</label>
+              <select className="input" value={form.statut} onChange={e=>setForm(p=>({...p,statut:e.target.value}))}>
+                <option>Titulaire</option><option>Contractuel</option>
+              </select>
+            </div>
+          </div>
+          <div style={{marginTop:16,display:'flex',gap:10}}>
+            <button className="btn btn-primary" onClick={handleAdd}>✓ Enregistrer</button>
+            <button className="btn btn-ghost" onClick={()=>setShowForm(false)}>Annuler</button>
+          </div>
+        </div>
+      )}
+
+      <input className="input" placeholder="🔍 Rechercher..." value={search} onChange={e=>setSearch(e.target.value)} style={{maxWidth:320,marginBottom:16}} />
+
+      <div className="card" style={{padding:0}}>
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Matricule</th><th>Nom complet</th><th>Matières</th><th>Classes</th><th>École</th><th>Grade</th><th>Statut</th></tr></thead>
+            <tbody>
+              {filtered.map(p=>{
+                const ecole = ecoles.find(e=>e.id===p.ecoleId)
+                const gc = gradeColor[p.grade]||'#A0AEC0'
+                return (
+                  <tr key={p.id}>
+                    <td><span style={{fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.8rem',color:'#1B3A6B'}}>{p.matricule}</span></td>
+                    <td>
+                      <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <div style={{width:34,height:34,borderRadius:10,background:`${gc}20`,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.85rem',color:gc}}>{p.prenom[0]}{p.nom[0]}</div>
+                        <div>
+                          <div style={{fontWeight:600,fontSize:'0.9rem',color:'#1B3A6B'}}>{p.prenom} {p.nom}</div>
+                          <div style={{fontSize:'0.72rem',color:'#A0AEC0'}}>Depuis {p.dateRecrutement?.split('-')[0]}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><div style={{display:'flex',gap:4,flexWrap:'wrap'}}>{(p.matieres||[]).map(m=><span key={m} className="badge badge-cobalt" style={{fontSize:'0.7rem'}}>{m}</span>)}</div></td>
+                    <td style={{fontSize:'0.82rem'}}>{p.classe}</td>
+                    <td style={{fontSize:'0.82rem'}}>{ecole?.nom?.split(' ').slice(0,3).join(' ')||'—'}</td>
+                    <td><span className="badge" style={{background:`${gc}15`,color:gc,fontSize:'0.72rem'}}>{p.grade}</span></td>
+                    <td><span className={`badge ${p.statut==='Titulaire'?'badge-mint':'badge-amber'}`} style={{fontSize:'0.72rem'}}>{p.statut}</span></td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}import React, { useState } from 'react'
+import { useApp } from '../App.jsx'
+import { notes as initNotes, eleves } from '../data/db.js'
+
+const matiereColors = {
+  'Mathématiques':'#667EEA','Français':'#2DBE8C','Histoire-Géo':'#F6A623',
+  'Sciences':'#ED8936','EPS':'#E53E3E','Anglais':'#9F7AEA','Calcul':'#38B2AC',
+  'Lecture':'#F687B3','SVT':'#68D391','Chimie':'#FC8181','Philosophie':'#B794F4'
+}
+
+export default function PageNotes() {
+  const { currentUser } = useApp()
+  const role = currentUser?.role || 'eleve'
+  const [notes, setNotes] = useState(initNotes)
+  const [trimestre, setTrimestre] = useState(1)
+  const [selectedEleve, setSelectedEleve] = useState(currentUser?.eleveId || 1)
+  const [showSaisie, setShowSaisie] = useState(false)
+  const [form, setForm] = useState({ eleveId:'', matiere:'', trimestre:1, note:'', coeff:1, appreciation:'' })
+  const [saved, setSaved] = useState(false)
+
+  const elevesList = role==='eleve' ? eleves.filter(e=>e.id===currentUser.eleveId)
+    : role==='parent' ? eleves.filter(e=>(currentUser.enfants||[]).includes(e.id))
+    : eleves
+
+  const mesNotes = notes.filter(n=>n.eleveId===parseInt(selectedEleve) && n.trimestre===trimestre)
+  const sommeCoeff = mesNotes.reduce((a,n)=>a+n.coeff,0)
+  const moyenne = sommeCoeff ? (mesNotes.reduce((a,n)=>a+n.note*n.coeff,0)/sommeCoeff).toFixed(2) : null
+  const eleveCourant = eleves.find(e=>e.id===parseInt(selectedEleve))
+  const moyColor = m => m>=14?'#2DBE8C':m>=10?'#F6A623':'#E53E3E'
+
+  const handleSave = () => {
+    if (!form.matiere||!form.note||!form.eleveId) return
+    setNotes(p=>[...p,{ ...form, id:Date.now(), eleveId:parseInt(form.eleveId), trimestre:parseInt(form.trimestre), note:parseFloat(form.note), coeff:parseInt(form.coeff), professeurId:currentUser.professeurId||1 }])
+    setSaved(true); setTimeout(()=>setSaved(false),2000)
+    setForm(p=>({...p,note:'',appreciation:''}))
+  }
+
+  return (
+    <div className="animate-fade">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <div>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Notes & Bulletins</h2>
+          <p style={{color:'#718096',fontSize:'0.85rem'}}>Année scolaire 2024–2025</p>
+        </div>
+        {(role==='professeur'||role==='admin') && (
+          <button className="btn btn-mint" onClick={()=>setShowSaisie(!showSaisie)}>{showSaisie?'✕ Fermer':'✏️ Saisir des notes'}</button>
+        )}
+      </div>
+
+      {showSaisie && (
+        <div className="card animate-fade" style={{marginBottom:20,borderTop:'4px solid #667EEA'}}>
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:16}}>
+            Saisie de notes {saved && <span style={{color:'#2DBE8C',fontSize:'0.85rem'}}>✓ Enregistré</span>}
+          </h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:14}}>
+            <div className="input-group"><label>Élève</label>
+              <select className="input" value={form.eleveId} onChange={e=>setForm(p=>({...p,eleveId:e.target.value}))}>
+                <option value="">-- Choisir --</option>
+                {eleves.map(e=><option key={e.id} value={e.id}>{e.prenom} {e.nom} ({e.classe})</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Matière</label>
+              <select className="input" value={form.matiere} onChange={e=>setForm(p=>({...p,matiere:e.target.value}))}>
+                <option value="">-- Choisir --</option>
+                {Object.keys(matiereColors).map(m=><option key={m}>{m}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Trimestre</label>
+              <select className="input" value={form.trimestre} onChange={e=>setForm(p=>({...p,trimestre:e.target.value}))}>
+                <option value={1}>T1</option><option value={2}>T2</option><option value={3}>T3</option>
+              </select>
+            </div>
+            <div className="input-group"><label>Note /20</label>
+              <input className="input" type="number" min={0} max={20} step={0.25} value={form.note} onChange={e=>setForm(p=>({...p,note:e.target.value}))} />
+            </div>
+            <div className="input-group"><label>Coefficient</label>
+              <select className="input" value={form.coeff} onChange={e=>setForm(p=>({...p,coeff:e.target.value}))}>
+                {[1,2,3,4].map(c=><option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Appréciation</label>
+              <input className="input" placeholder="Commentaire..." value={form.appreciation} onChange={e=>setForm(p=>({...p,appreciation:e.target.value}))} />
+            </div>
+          </div>
+          <div style={{marginTop:16,display:'flex',gap:10}}>
+            <button className="btn btn-primary" onClick={handleSave}>✓ Enregistrer</button>
+            <button className="btn btn-ghost" onClick={()=>setShowSaisie(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{display:'flex',gap:12,marginBottom:20,flexWrap:'wrap',alignItems:'center'}}>
+        {(role==='admin'||role==='professeur'||role==='parent') && (
+          <select className="input" value={selectedEleve} onChange={e=>setSelectedEleve(e.target.value)} style={{maxWidth:280}}>
+            {(role==='admin'?eleves:elevesList).map(e=><option key={e.id} value={e.id}>{e.prenom} {e.nom} — {e.classe}</option>)}
+          </select>
+        )}
+        <div style={{display:'flex',gap:8}}>
+          {[1,2,3].map(t=>(
+            <button key={t} className="btn btn-sm" onClick={()=>setTrimestre(t)} style={{background:trimestre===t?'#1B3A6B':'transparent',color:trimestre===t?'white':'#4A5568',border:'1.5px solid '+(trimestre===t?'#1B3A6B':'#E2E8F0')}}>T{t}</button>
+          ))}
+        </div>
+      </div>
+
+      {eleveCourant && (
+        <div style={{background:'linear-gradient(135deg,#1B3A6B,#2A5298)',borderRadius:16,padding:'20px 24px',marginBottom:20,color:'white',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
+          <div>
+            <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.2rem'}}>{eleveCourant.prenom} {eleveCourant.nom}</div>
+            <div style={{color:'rgba(255,255,255,0.75)',fontSize:'0.85rem'}}>{eleveCourant.classe} • {eleveCourant.matricule} • Trimestre {trimestre}</div>
+          </div>
+          {moyenne && <div style={{textAlign:'right'}}><div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'2.2rem',color:moyColor(parseFloat(moyenne))}}>{moyenne}</div><div style={{color:'rgba(255,255,255,0.65)',fontSize:'0.78rem'}}>Moyenne / 20</div></div>}
+        </div>
+      )}
+
+      <div className="card" style={{padding:0}}>
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Matière</th><th>Note</th><th>Coeff.</th><th>Points</th><th>Appréciation</th></tr></thead>
+            <tbody>
+              {mesNotes.length ? mesNotes.map(n=>{
+                const c = matiereColors[n.matiere]||'#667EEA'
+                return (
+                  <tr key={n.id}>
+                    <td><div style={{display:'flex',alignItems:'center',gap:8}}><div style={{width:8,height:8,borderRadius:'50%',background:c}}/><span style={{fontWeight:600,color:'#1B3A6B'}}>{n.matiere}</span></div></td>
+                    <td><span style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.1rem',color:moyColor(n.note)}}>{n.note}</span><span style={{color:'#A0AEC0',fontSize:'0.8rem'}}>/20</span></td>
+                    <td style={{fontWeight:600}}>{n.coeff}</td>
+                    <td style={{fontWeight:700,color:'#1B3A6B'}}>{(n.note*n.coeff).toFixed(2)}</td>
+                    <td style={{color:'#718096',fontSize:'0.85rem',fontStyle:'italic'}}>{n.appreciation||'—'}</td>
+                  </tr>
+                )
+              }) : <tr><td colSpan={5} style={{textAlign:'center',padding:32,color:'#A0AEC0'}}>Aucune note pour ce trimestre</td></tr>}
+            </tbody>
+            {mesNotes.length>0 && (
+              <tfoot>
+                <tr style={{background:'#EEF2FF'}}>
+                  <td style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',padding:'14px 16px'}}>Moyenne générale</td>
+                  <td colSpan={3} style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.3rem',color:moyColor(parseFloat(moyenne)),padding:'14px 16px'}}>{moyenne}/20</td>
+                  <td style={{padding:'14px 16px',color:'#718096',fontSize:'0.85rem'}}>Total coeff. : {sommeCoeff}</td>
+                </tr>
+              </tfoot>
+            )}
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}import React, { useState } from 'react'
+import { emploisDuTemps } from '../data/db.js'
+
+const matiereColors = {
+  'Mathématiques':'#667EEA','Français':'#2DBE8C','Histoire-Géo':'#F6A623',
+  'Sciences':'#ED8936','EPS':'#E53E3E','Anglais':'#9F7AEA','Calcul':'#38B2AC',
+  'Arts Plastiques':'#F687B3'
+}
+const jours = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi']
+
+export default function PageEmploi() {
+  const [classe, setClasse] = useState('6ème A')
+  const edt = emploisDuTemps[classe] || []
+
+  return (
+    <div className="animate-fade">
+      <div style={{marginBottom:20}}>
+        <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Emploi du temps</h2>
+        <p style={{color:'#718096',fontSize:'0.85rem'}}>Année scolaire 2024–2025</p>
+      </div>
+
+      <div style={{display:'flex',gap:10,marginBottom:20,flexWrap:'wrap',alignItems:'center'}}>
+        {Object.keys(emploisDuTemps).map(c=>(
+          <button key={c} className="btn btn-sm" onClick={()=>setClasse(c)} style={{background:classe===c?'#1B3A6B':'transparent',color:classe===c?'white':'#4A5568',border:'1.5px solid '+(classe===c?'#1B3A6B':'#E2E8F0')}}>{c}</button>
+        ))}
+      </div>
+
+      <div className="card" style={{padding:0,overflowX:'auto',marginBottom:24}}>
+        <table style={{minWidth:700}}>
+          <thead>
+            <tr>
+              <th style={{width:100}}>Heure</th>
+              {jours.map(j=><th key={j} style={{textAlign:'center'}}>{j}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {['07:30','09:45','13:00'].map(heure=>(
+              <tr key={heure}>
+                <td style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:'#4A5568',fontSize:'0.85rem',background:'#F8FAFF',whiteSpace:'nowrap'}}>{heure}</td>
+                {jours.map(jour=>{
+                  const jourData = edt.find(d=>d.jour===jour)
+                  const cours = jourData?.heures?.find(h=>h.debut===heure)
+                  const color = cours ? (matiereColors[cours.matiere]||'#A0AEC0') : null
+                  return (
+                    <td key={jour} style={{padding:4,verticalAlign:'top'}}>
+                      {cours ? (
+                        <div style={{background:`${color}15`,border:`1.5px solid ${color}40`,borderRadius:8,padding:'8px 10px',borderLeft:`3px solid ${color}`}}>
+                          <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color,fontSize:'0.82rem',lineHeight:1.2}}>{cours.matiere}</div>
+                          <div style={{fontSize:'0.72rem',color:'#718096',marginTop:3}}>{cours.debut}–{cours.fin}</div>
+                          <div style={{fontSize:'0.7rem',color:'#A0AEC0',marginTop:1}}>{cours.professeur} • {cours.salle}</div>
+                        </div>
+                      ) : (
+                        <div style={{height:60,display:'flex',alignItems:'center',justifyContent:'center'}}><span style={{color:'#E2E8F0'}}>—</span></div>
+                      )}
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:14}}>
+        {edt.map(({jour,heures})=>(
+          <div key={jour} className="card" style={{padding:16}}>
+            <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.9rem',marginBottom:12}}>📅 {jour}</div>
+            {heures.map((h,i)=>{
+              const c = matiereColors[h.matiere]||'#A0AEC0'
+              return (
+                <div key={i} style={{display:'flex',gap:10,padding:'8px 10px',background:`${c}08`,borderRadius:8,borderLeft:`3px solid ${c}`,marginBottom:6}}>
+                  <div style={{fontSize:'0.7rem',color:'#A0AEC0',whiteSpace:'nowrap',paddingTop:2}}>{h.debut}<br/>{h.fin}</div>
+                  <div>
+                    <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:c,fontSize:'0.85rem'}}>{h.matiere}</div>
+                    <div style={{fontSize:'0.7rem',color:'#718096'}}>{h.professeur} • {h.salle}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}import React, { useState } from 'react'
+import { examens as initExamens } from '../data/db.js'
+
+export default function PageExamens() {
+  const [examens, setExamens] = useState(initExamens)
+  const [search, setSearch] = useState('')
+  const [filterStatut, setFilterStatut] = useState('Tous')
+  const [showForm, setShowForm] = useState(false)
+  const [form, setForm] = useState({ nom:'', niveau:'', date:'', region:'National', statut:'À venir', inscrits:0, centres:0 })
+
+  const filtered = examens.filter(e=>
+    (e.nom+e.niveau).toLowerCase().includes(search.toLowerCase()) && (filterStatut==='Tous'||e.statut===filterStatut)
+  )
+  const statutColor = {'À venir':'#F6A623','En cours':'#667EEA','Terminé':'#2DBE8C'}
+  const statutBg = {'À venir':'#FFF4DC','En cours':'#EBF4FF','Terminé':'#E8FAF4'}
+
+  const handleAdd = () => {
+    if (!form.nom||!form.niveau||!form.date) return
+    setExamens(p=>[{...form,id:Date.now(),inscrits:parseInt(form.inscrits)||0,centres:parseInt(form.centres)||0},...p])
+    setForm({ nom:'',niveau:'',date:'',region:'National',statut:'À venir',inscrits:0,centres:0 })
+    setShowForm(false)
+  }
+
+  return (
+    <div className="animate-fade">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <div>
+          <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Examens & Concours Nationaux</h2>
+          <p style={{color:'#718096',fontSize:'0.85rem'}}>Année scolaire 2024–2025</p>
+        </div>
+        <button className="btn btn-mint" onClick={()=>setShowForm(!showForm)}>{showForm?'✕ Fermer':'+ Ajouter un examen'}</button>
+      </div>
+
+      {showForm && (
+        <div className="card animate-fade" style={{marginBottom:20,borderTop:'4px solid #667EEA'}}>
+          <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:16}}>Nouvel examen / concours</h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:14}}>
+            <div className="input-group"><label>Nom de l'examen</label><input className="input" value={form.nom} onChange={e=>setForm(p=>({...p,nom:e.target.value}))} /></div>
+            <div className="input-group"><label>Niveau</label><input className="input" placeholder="3ème, Terminale..." value={form.niveau} onChange={e=>setForm(p=>({...p,niveau:e.target.value}))} /></div>
+            <div className="input-group"><label>Date</label><input className="input" type="date" value={form.date} onChange={e=>setForm(p=>({...p,date:e.target.value}))} /></div>
+            <div className="input-group"><label>Région</label>
+              <select className="input" value={form.region} onChange={e=>setForm(p=>({...p,region:e.target.value}))}>
+                {['National','Niamey','Agadez','Diffa','Dosso','Maradi','Tahoua','Tillabéri','Zinder'].map(r=><option key={r}>{r}</option>)}
+              </select>
+            </div>
+            <div className="input-group"><label>Statut</label>
+              <select className="input" value={form.statut} onChange={e=>setForm(p=>({...p,statut:e.target.value}))}>
+                <option>À venir</option><option>En cours</option><option>Terminé</option>
+              </select>
+            </div>
+            <div className="input-group"><label>Inscrits</label><input className="input" type="number" value={form.inscrits} onChange={e=>setForm(p=>({...p,inscrits:e.target.value}))} /></div>
+            <div className="input-group"><label>Centres</label><input className="input" type="number" value={form.centres} onChange={e=>setForm(p=>({...p,centres:e.target.value}))} /></div>
+          </div>
+          <div style={{marginTop:16,display:'flex',gap:10}}>
+            <button className="btn btn-primary" onClick={handleAdd}>✓ Enregistrer</button>
+            <button className="btn btn-ghost" onClick={()=>setShowForm(false)}>Annuler</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{display:'flex',gap:10,marginBottom:16,flexWrap:'wrap'}}>
+        <input className="input" placeholder="🔍 Rechercher..." value={search} onChange={e=>setSearch(e.target.value)} style={{maxWidth:280}} />
+        {['Tous','À venir','En cours','Terminé'].map(s=>(
+          <button key={s} className="btn btn-sm" onClick={()=>setFilterStatut(s)} style={{background:filterStatut===s?'#1B3A6B':'transparent',color:filterStatut===s?'white':'#4A5568',border:'1.5px solid '+(filterStatut===s?'#1B3A6B':'#E2E8F0')}}>{s}</button>
+        ))}
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:16}}>
+        {filtered.map(ex=>{
+          const sc = statutColor[ex.statut]||'#A0AEC0'
+          const sb = statutBg[ex.statut]||'#F8FAFF'
+          return (
+            <div key={ex.id} className="card" style={{borderTop:`4px solid ${sc}`,padding:20}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
+                <div style={{flex:1,paddingRight:12}}>
+                  <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.95rem',lineHeight:1.3}}>{ex.nom}</h3>
+                  <div style={{display:'flex',gap:6,marginTop:6,flexWrap:'wrap'}}>
+                    <span className="badge badge-cobalt" style={{fontSize:'0.7rem'}}>Niveau : {ex.niveau}</span>
+                    <span className="badge badge-cobalt" style={{fontSize:'0.7rem'}}>📍 {ex.region}</span>
+                  </div>
+                </div>
+                <span style={{background:sb,color:sc,borderRadius:100,padding:'4px 12px',fontSize:'0.75rem',fontWeight:700,fontFamily:'Nunito,sans-serif',flexShrink:0}}>{ex.statut}</span>
+              </div>
+              <div style={{borderTop:'1px solid #EEF2FF',paddingTop:12,display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
+                {[
+                  {i:'📅',l:'Date',v:new Date(ex.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})},
+                  {i:'👨‍🎓',l:'Inscrits',v:ex.inscrits.toLocaleString('fr')},
+                  {i:'🏫',l:'Centres',v:ex.centres},
+                ].map(({i,l,v})=>(
+                  <div key={l} style={{textAlign:'center',background:'#F8FAFF',borderRadius:8,padding:'8px 6px'}}>
+                    <div style={{fontSize:'1rem',marginBottom:2}}>{i}</div>
+                    <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.85rem'}}>{v}</div>
+                    <div style={{fontSize:'0.65rem',color:'#A0AEC0',textTransform:'uppercase'}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}import React, { useState } from 'react'
+import { useApp } from '../App.jsx'
+import { eleves, notes, ecoles, emploisDuTemps, examens } from '../data/db.js'
+
+const matiereColors = {
+  'Mathématiques':'#667EEA','Français':'#2DBE8C','Histoire-Géo':'#F6A623',
+  'Sciences':'#ED8936','EPS':'#E53E3E','Anglais':'#9F7AEA','Calcul':'#38B2AC','Lecture':'#4FD1C5'
+}
+
+export default function PageParents() {
+  const { currentUser } = useApp()
+  const [activeEnfant, setActiveEnfant] = useState(null)
+  const [activeTab, setActiveTab] = useState('notes')
+
+  const role = currentUser?.role || 'parent'
+  const enfantIds = currentUser?.enfants || []
+  const mesEnfants = role==='admin' ? eleves : eleves.filter(e=>enfantIds.includes(e.id))
+  const enfant = eleves.find(e=>e.id===(activeEnfant||mesEnfants[0]?.id))
+  const enfantId = enfant?.id
+
+  const notesEnfant = notes.filter(n=>n.eleveId===enfantId)
+  const notesT1 = notesEnfant.filter(n=>n.trimestre===1)
+  const notesT2 = notesEnfant.filter(n=>n.trimestre===2)
+  const moyT1 = notesT1.length ? (notesT1.reduce((a,n)=>a+n.note*n.coeff,0)/notesT1.reduce((a,n)=>a+n.coeff,0)).toFixed(2) : '—'
+  const moyT2 = notesT2.length ? (notesT2.reduce((a,n)=>a+n.note*n.coeff,0)/notesT2.reduce((a,n)=>a+n.coeff,0)).toFixed(2) : '—'
+  const ecole = ecoles.find(s=>s.id===enfant?.ecoleId)
+  const edtClasse = emploisDuTemps[enfant?.classe] || []
+  const moyColor = m => parseFloat(m)>=14?'#2DBE8C':parseFloat(m)>=10?'#F6A623':'#E53E3E'
+
+  return (
+    <div className="animate-fade">
+      <div style={{marginBottom:20}}>
+        <h2 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:'#1B3A6B',fontSize:'1.3rem'}}>Espace Parents</h2>
+        <p style={{color:'#718096',fontSize:'0.85rem'}}>Suivi scolaire de vos enfants</p>
+      </div>
+
+      <div style={{display:'flex',gap:12,marginBottom:24,flexWrap:'wrap'}}>
+        {mesEnfants.map(e=>{
+          const active = (activeEnfant||mesEnfants[0]?.id)===e.id
+          const en = notes.filter(n=>n.eleveId===e.id&&n.trimestre===1)
+          const moy = en.length?(en.reduce((a,n)=>a+n.note*n.coeff,0)/en.reduce((a,n)=>a+n.coeff,0)).toFixed(1):'—'
+          return (
+            <button key={e.id} onClick={()=>setActiveEnfant(e.id)} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',borderRadius:12,border:`2px solid ${active?'#1B3A6B':'#E2E8F0'}`,background:active?'#EEF2FF':'white',cursor:'pointer',transition:'all 0.2s'}}>
+              <div style={{width:40,height:40,borderRadius:10,background:e.sexe==='F'?'#FED7E2':'#BEE3F8',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:800,color:e.sexe==='F'?'#B83280':'#2C5282'}}>{e.prenom[0]}{e.nom[0]}</div>
+              <div style={{textAlign:'left'}}>
+                <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.9rem'}}>{e.prenom}</div>
+                <div style={{fontSize:'0.75rem',color:'#718096'}}>{e.classe}</div>
+              </div>
+              <div style={{marginLeft:8,fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.1rem',color:moyColor(moy)}}>{moy}</div>
+            </button>
+          )
+        })}
+      </div>
+
+      {enfant && (
+        <>
+          <div style={{background:'linear-gradient(135deg,#1B3A6B,#2A5298)',borderRadius:16,padding:'20px 24px',marginBottom:20,color:'white'}}>
+            <div style={{display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
+              <div style={{width:56,height:56,borderRadius:14,background:'rgba(45,190,140,0.3)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.3rem',color:'white'}}>{enfant.prenom[0]}{enfant.nom[0]}</div>
+              <div style={{flex:1}}>
+                <h3 style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.2rem',color:'white',margin:0}}>{enfant.prenom} {enfant.nom}</h3>
+                <p style={{color:'rgba(255,255,255,0.7)',fontSize:'0.85rem',margin:'4px 0 0'}}>{enfant.classe} • {ecole?.nom} • {enfant.matricule}</p>
+              </div>
+              <div style={{display:'flex',gap:20}}>
+                {[{l:'Moy. T1',v:moyT1},{l:'Moy. T2',v:moyT2}].map(({l,v})=>(
+                  <div key={l} style={{textAlign:'center'}}>
+                    <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.6rem',color:v==='—'?'rgba(255,255,255,0.4)':moyColor(v)}}>{v}</div>
+                    <div style={{fontSize:'0.72rem',color:'rgba(255,255,255,0.55)'}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{display:'flex',gap:4,marginBottom:20,background:'white',borderRadius:12,padding:4,boxShadow:'0 1px 6px rgba(0,0,0,0.06)',width:'fit-content'}}>
+            {[{id:'notes',l:'📊 Notes'},{id:'edt',l:'🗓️ Emploi du temps'},{id:'examens',l:'📝 Examens'}].map(t=>(
+              <button key={t.id} onClick={()=>setActiveTab(t.id)} style={{padding:'8px 18px',borderRadius:8,border:'none',cursor:'pointer',fontFamily:'Nunito,sans-serif',fontWeight:700,fontSize:'0.85rem',background:activeTab===t.id?'#1B3A6B':'transparent',color:activeTab===t.id?'white':'#718096',transition:'all 0.2s'}}>{t.l}</button>
+            ))}
+          </div>
+
+          {activeTab==='notes' && (
+            <div className="animate-fade" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:16}}>
+              {[1,2].map(tr=>{
+                const trNotes = notesEnfant.filter(n=>n.trimestre===tr)
+                if(!trNotes.length) return null
+                const moy = (trNotes.reduce((a,n)=>a+n.note*n.coeff,0)/trNotes.reduce((a,n)=>a+n.coeff,0)).toFixed(2)
+                return (
+                  <div key={tr} className="card">
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
+                      <h4 style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B'}}>Trimestre {tr}</h4>
+                      <div style={{fontFamily:'Nunito,sans-serif',fontWeight:900,fontSize:'1.4rem',color:moyColor(moy)}}>{moy}/20</div>
+                    </div>
+                    {trNotes.map(n=>{
+                      const c = matiereColors[n.matiere]||'#A0AEC0'
+                      return (
+                        <div key={n.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid #EEF2FF'}}>
+                          <div style={{display:'flex',alignItems:'center',gap:8}}>
+                            <div style={{width:8,height:8,borderRadius:2,background:c}}/>
+                            <div>
+                              <div style={{fontWeight:600,fontSize:'0.88rem',color:'#1B3A6B'}}>{n.matiere}</div>
+                              {n.appreciation&&<div style={{fontSize:'0.72rem',color:'#A0AEC0',fontStyle:'italic'}}>{n.appreciation}</div>}
+                            </div>
+                          </div>
+                          <div style={{textAlign:'right'}}>
+                            <span style={{fontFamily:'Nunito,sans-serif',fontWeight:900,color:moyColor(n.note),fontSize:'1rem'}}>{n.note}</span>
+                            <span style={{color:'#A0AEC0',fontSize:'0.75rem'}}>/20</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {activeTab==='edt' && (
+            <div className="animate-fade" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:14}}>
+              {edtClasse.length ? edtClasse.map(({jour,heures})=>(
+                <div key={jour} className="card" style={{padding:16}}>
+                  <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',marginBottom:12}}>📅 {jour}</div>
+                  {heures.map((h,i)=>{
+                    const c = matiereColors[h.matiere]||'#A0AEC0'
+                    return (
+                      <div key={i} style={{display:'flex',gap:10,padding:'8px 10px',background:`${c}08`,borderRadius:8,borderLeft:`3px solid ${c}`,marginBottom:6}}>
+                        <div style={{fontSize:'0.7rem',color:'#A0AEC0',whiteSpace:'nowrap',paddingTop:2}}>{h.debut}<br/>{h.fin}</div>
+                        <div>
+                          <div style={{fontFamily:'Nunito,sans-serif',fontWeight:700,color:c,fontSize:'0.82rem'}}>{h.matiere}</div>
+                          <div style={{fontSize:'0.7rem',color:'#718096'}}>{h.professeur}</div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )) : <div className="card" style={{textAlign:'center',padding:48,color:'#A0AEC0'}}>Emploi du temps non disponible</div>}
+            </div>
+          )}
+
+          {activeTab==='examens' && (
+            <div className="animate-fade" style={{display:'flex',flexDirection:'column',gap:12}}>
+              {examens.map(ex=>(
+                <div key={ex.id} className="card" style={{padding:16,display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
+                  <div style={{width:48,height:48,borderRadius:12,flexShrink:0,background:ex.statut==='Terminé'?'#E8FAF4':ex.statut==='À venir'?'#FFF4DC':'#EBF4FF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.4rem'}}>
+                    {ex.statut==='Terminé'?'✅':ex.statut==='À venir'?'⏳':'🔄'}
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{fontFamily:'Nunito,sans-serif',fontWeight:800,color:'#1B3A6B',fontSize:'0.95rem'}}>{ex.nom}</div>
+                    <div style={{fontSize:'0.78rem',color:'#718096',marginTop:3}}>Niveau : {ex.niveau} • {new Date(ex.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+                  </div>
+                  <span style={{padding:'5px 14px',borderRadius:100,fontSize:'0.78rem',fontWeight:700,fontFamily:'Nunito,sans-serif',background:ex.statut==='Terminé'?'#E8FAF4':ex.statut==='À venir'?'#FFF4DC':'#EBF4FF',color:ex.statut==='Terminé'?'#1B8C65':ex.statut==='À venir'?'#B7791F':'#2B6CB0'}}>{ex.statut}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  )
+}edupn/
+├── index.html
+├── package.json
+├── vite.config.js
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── styles/
+    │   └── global.css
+    ├── data/
+    │   └── db.js
+    ├── components/
+    │   ├── Layout.jsx
+    │   ├── Sidebar.jsx
+    │   └── Topbar.jsx
+    └── pages/
+        ├── PageAccueil.jsx
+        ├── PageConnexion.jsx
+        ├── PageDashboard.jsx
+        ├── PageEcoles.jsx
+        ├── PageEleves.jsx
+        ├── PageProfesseurs.jsx
+        ├── PageNotes.jsx
+        ├── PageEmploi.jsx
+        ├── PageExamens.jsx
+        └── PageParents.jsx
+
+http://localhost:5173
